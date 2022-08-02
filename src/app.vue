@@ -81,10 +81,10 @@ perspective: 1000px;
 }
 .style-editor {
 ${ isMobile ? `transform: rotateX(-10deg) translateZ(-100px);
--webkit-transform: rotateX(-10deg) translateZ(-100px);` : `transform: rotateY(10deg) translateZ(-100px) ;
--webkit-transform: rotateY(10deg) translateZ(-100px);` } ${ isMobile ? `
+-webkit-transform: rotateX(-10deg) translateZ(-100px);
 transform-origin: 50% 0% 0;
--webkit-transform-origin: 50% 0% 0;` : '' }
+-webkit-transform-origin: 50% 0% 0;` : `transform: rotateY(10deg) translateZ(-100px) ;
+-webkit-transform: rotateY(10deg) translateZ(-100px);` }
 }
 /*
 * 今天教你写代码。
@@ -214,6 +214,7 @@ animation: throb 1s infinite linear;
 <style>
 body {
     margin: 0;
+    overflow: hidden;
 }
 
 </style>

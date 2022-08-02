@@ -84,10 +84,14 @@
 export default {
     name: 'rose',
     mounted(){
-        var svg = this.$refs.svg;
+        const userAgent = navigator.userAgent,
+            agents = /(Android)|(iPhone)|(iPad)/i,
+            isMobile = agents.test(userAgent),
+            event = isMobile ? 'click' : 'mouseenter'
+        const svg = this.$refs.svg;
         for(let i=0; i<15; i++) {
             const animation = this.$refs['animate'+i]
-            svg.addEventListener('mouseenter', function(){ animation.beginElement(); });
+            svg.addEventListener(event, function(){ animation.beginElement(); });
         }
     }
 }
