@@ -1,6 +1,7 @@
 const path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     { VueLoaderPlugin } = require('vue-loader'),
+    copyWebpackPlugin = require('copy-webpack-plugin')
     isDebug = process.env.NODE_ENV !== 'production'
 
 
@@ -37,6 +38,18 @@ let config = {
             template: path.join(__dirname, 'public/index.html'),
             inject: true
         }),
+        // 静态资源输出到根目录
+        new copyWebpackPlugin({
+            patterns: [{
+                from: path.resolve(__dirname, "./public"),
+                to: './',
+                globOptions: {
+                    dot: true,
+                    gitignore: true,
+                    ignore: ["**/index.html*"]
+                }
+            }]
+        })
     ]
 }
 if(isDebug) {
