@@ -10,22 +10,26 @@
             <div class="heart"></div>
             <div class="heart bounce"></div>
         </div>
+        <rose class="rose" v-show="show"/>
     </div>
 </template>
 <script>
 import Prism from 'prismjs'
+import Rose from './rose.vue'
 export default {
     name: 'app',
+    components: {
+        Rose
+    },
     data() {
         return {
             currentText: '',
-            // $text: '',
+            show: false
         }
     },
     // vue3 移除了 filters
     computed: {
         code({currentText}) {
-            // if(!currentText) return ''
             return Prism.highlight(currentText, Prism.languages.css)
         }
     },
@@ -35,8 +39,8 @@ export default {
             isMobile = agents.test(userAgent)
         this.text = `
 /*
-* Hi。宝贝！
-* 这么久了。还没和宝贝说过我的工作呢！
+* Hi！
+* 这么久了。还没和你说过我的工作呢！
 * 我是个前端工程师。俗称程序员。网页相关。
 * 如这个页面。就是个什么也没有的网页。
 * 我的工作就是给这种空白的页面加点儿东西。
@@ -83,7 +87,7 @@ transform-origin: 50% 0% 0;
 -webkit-transform-origin: 50% 0% 0;` : '' }
 }
 /*
-* 宝贝，今天教你写代码。
+* 今天教你写代码。
 * 用代码画一个爱心。
 */
 ${
@@ -160,21 +164,16 @@ opacity: 0.2;
 animation: throb 1s infinite linear;
 }
 /*
-* Ok，完成！
-* 宝贝，七夕快乐！
+* 最后，送上一朵玫瑰，七夕快乐！
 */
 `
     },
-    async mounted() {
-        try {
-            await this.progressiveShowStyle()
-        }catch(e) {
-            console.error(e)
-        }
+    mounted() {
+        this.progressiveShowStyle()
     },
     methods: {
-        progressiveShowStyle() {
-            const showStyle = i => new Promise((resolve) => {
+        timeout(i) {
+            return new Promise((resolve) => {
                 const char = this.text[i]
                 if(!char) {
                     return
@@ -184,16 +183,55 @@ animation: throb 1s infinite linear;
                 }
                 this.currentText += char
                 setTimeout(()=> {
-                    resolve(showStyle(++i))
+                    resolve()
                 }, 30)
             })
-            return showStyle(0)
+        },
+        timeou2() {
+            return new Promise((resolve) => {
+                setTimeout(()=> {
+                    resolve()
+                }, 1000)
+            })
+        },
+        async progressiveShowStyle() {
+            try {
+                const l = this.text.length
+                let i = 0
+                while(i<l){
+                    await this.timeout(i)
+                    i++
+                }
+                console.log('finished')
+                this.show = true
+            }catch(e){
+                console.error(e)
+            }
         }
     }
 }
 </script>
+<style>
+body {
+    margin: 0;
+}
 
+</style>
 <style scoped>
+.wrapper {
+    position: relative;
+    height: 100vh;
+    padding: 8px;
+    box-sizing: border-box;
+}
+.rose {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
 .wrapper > div {
     box-sizing: border-box;
 }
