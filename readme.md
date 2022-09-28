@@ -11,4 +11,8 @@
   * filter 被取消了
   * 生命周期部分命名修改了，新增了renderTracked、renderTriggered
 
+
+* 新增
+  1. scss
+  2. 多页面展示
 ...待补充

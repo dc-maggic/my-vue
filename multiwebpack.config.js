@@ -1,14 +1,16 @@
+
+// import { getPages } from './utils.js'
 const path = require('path'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
     { VueLoaderPlugin } = require('vue-loader'),
+    copyWebpackPlugin = require('copy-webpack-plugin'),
+    { getPages } = require('./build/utils.js'),
     isDebug = process.env.NODE_ENV !== 'production'
-
-
+const {entries, htmlPlugins} = getPages(`./src/pages/**/index.js`)
 let config = {
     mode: process.env.NODE_ENV,
-    entry: path.join(__dirname, 'src/index.js'),
+    entry: entries,
     output: {
-        filename: 'index.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
         clean: true
     },
@@ -32,11 +34,19 @@ let config = {
     plugins: [
         new VueLoaderPlugin(),
         // 生成html文件
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: path.join(__dirname, 'public/index.html'),
-            inject: true
-        }),
+        ...htmlPlugins,
+        // 静态资源输出到根目录
+        new copyWebpackPlugin({
+            patterns: [{
+                from: path.resolve(__dirname, "./public"),
+                to: './',
+                globOptions: {
+                    dot: true,
+                    gitignore: true,
+                    ignore: ["**/**.html*"]
+                }
+            }]
+        })
     ]
 }
 if(isDebug) {
@@ -50,7 +60,6 @@ if(isDebug) {
         hot: true
     }
 }
-// console.log(config)
 module.exports = () => {
     return config
 }

@@ -218,7 +218,7 @@ body {
 }
 
 </style>
-<style scoped>
+<style scoped lang="scss">
 .wrapper {
     position: relative;
     height: 100vh;
