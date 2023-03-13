@@ -28,13 +28,12 @@ export default{
 
 		// 初始化相机
 		const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
-		// camera.position.set(2, 1, 4);
-		camera.position.z = 10
+		camera.position.set(2, 1, 4);
 		scene.add(camera);
 
 		// 添加球体作星球
-		const sphereGeometry = new THREE.SphereGeometry( 1 );
-		const material = new THREE.MeshBasicMaterial( { color: 'pink', wireframe: true } );
+		const sphereGeometry = new THREE.SphereGeometry( 1, 100, 100 );
+		const material = new THREE.MeshStandardMaterial( { color: 'pink' } );
 		const sphere = new THREE.Mesh( sphereGeometry, material );
 		sphere.rotation.y = -0.1 * (Math.PI / 2);
 		scene.add( sphere );
@@ -47,7 +46,7 @@ export default{
 		scene.add( torus );
 		// 添加多面体作卫星
 		const icosahedronGeometry = new THREE.IcosahedronGeometry(0.15, 0);
-		const icosahedronMaterial = new THREE.MeshBasicMaterial( { color: 'yellow', wireframe: true } );
+		const icosahedronMaterial = new THREE.MeshToonMaterial( { color: 'yellow' } );
 		const icosahedron = new THREE.Mesh( icosahedronGeometry, icosahedronMaterial );
 			icosahedron.position.y = 1.5 * Math.cos(rot);
 			icosahedron.position.x = 1.5 * Math.cos(rot);
@@ -73,7 +72,8 @@ export default{
 		controls.enableDamping = true;
 
 		// 添加灯光
-		const light = new THREE.AmbientLight(0xffffff, 1.5);
+		const light = new THREE.PointLight( );
+		light.position.set( -sizes.width, sizes.height, 9 );
 		scene.add(light);
 
 		renderer.render( scene, camera );
