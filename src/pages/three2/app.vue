@@ -47,19 +47,34 @@ export default{
 		scene.add( torus );
 		// 添加多面体作卫星
 		const icosahedronGeometry = new THREE.IcosahedronGeometry(0.15, 0);
-		const icosahedronMaterial = new THREE.MeshBasicMaterial( { color: 'yellow' } );
+		const icosahedronMaterial = new THREE.MeshBasicMaterial( { color: 'yellow', wireframe: true } );
 		const icosahedron = new THREE.Mesh( icosahedronGeometry, icosahedronMaterial );
 			icosahedron.position.y = 1.5 * Math.cos(rot);
 			icosahedron.position.x = 1.5 * Math.cos(rot);
 		scene.add( icosahedron );
+		// 添加星星
+		const stars = new THREE.Group();
+		for (let i = 0; i < 500; i++) {
+		const geometry = new THREE.IcosahedronGeometry(Math.random() * 0.2, 0);
+		const material = new THREE.MeshToonMaterial({ color: 0xeeeeee });
+		const mesh = new THREE.Mesh(geometry, material);
+		mesh.position.x = (Math.random() - 0.5) * 50;
+		mesh.position.y = (Math.random() - 0.5) * 50;
+		mesh.position.z = (Math.random() - 0.5) * 50;
+		mesh.rotation.x = Math.random() * 2 * Math.PI;
+		mesh.rotation.y = Math.random() * 2 * Math.PI;
+		mesh.rotation.z = Math.random() * 2 * Math.PI;
+		stars.add(mesh);
+		}
+		scene.add(stars);
 
 		// 添加控制器
 		const controls = new OrbitControls(camera, renderer.domElement);
 		controls.enableDamping = true;
 
 		// 添加灯光
-		// const light = new THREE.AmbientLight(0xffffff, 1.5);
-		// scene.add(light);
+		const light = new THREE.AmbientLight(0xffffff, 1.5);
+		scene.add(light);
 
 		renderer.render( scene, camera );
 		const axis = new THREE.Vector3(0, 0, 1);
@@ -72,10 +87,12 @@ export default{
 			rot += 0.01;
 			icosahedron.position.z = 1.5 * Math.sin(rot);
 			icosahedron.position.y = 1.5 * Math.cos(rot);
-			icosahedron.position.x = 1.5 * Math.cos(rot);
+			icosahedron.position.x = 1.5 * Math.cos(rot + 2);
 			icosahedron.rotation.x += 0.01;
 			icosahedron.rotation.y += 0.01;
 			icosahedron.rotation.z += 0.01;
+			stars.rotation.y += 0.0009;
+			stars.rotation.z -= 0.0003;
 			renderer.render( scene, camera );
 			controls.update();
 		}
