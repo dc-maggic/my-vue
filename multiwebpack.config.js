@@ -29,6 +29,11 @@ let config = {
                 test: /\.(css|scss|sass)$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
+            {
+                test: /\.(fbx|obj)$/,
+                loader: 'url-loader'
+            },
+              
         ]
     },
     plugins: [
@@ -45,6 +50,9 @@ let config = {
                     gitignore: true,
                     ignore: ["**/**.html*"]
                 }
+            },{ 
+                from: path.resolve(__dirname, './src/static'),
+                to: './'
             }]
         })
     ]
@@ -53,9 +61,11 @@ if(isDebug) {
     // webpack5 的 devtool 参数不一样
     config.devtool= 'eval-cheap-module-source-map'
     config.devServer= {
-        static: {
-            directory: path.join(__dirname, 'public'),
-        },
+        // static: [{
+        //     directory: path.join(__dirname, 'public')
+        // }, {
+        //     directory: path.join(__dirname, 'src/static')
+        // }],
         open: true,
         hot: true
     }
