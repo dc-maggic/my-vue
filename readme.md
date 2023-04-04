@@ -54,3 +54,8 @@
       > three 在用多个 scene 情况下，我用 OrbitControls 也没办法生效。发现只用一个 scene 时就生效了。有待考证如果在多个 scene 情况下该怎么转动！
       > 加了控制器以后模型的位置发生变化，我看相机的 position 没变。
     * 灯光 **DirectionalLight**、**PointLight** 等
+    * 核心 **Clock**
+    * event 事件
+      > 为什么要用鼠标事件百分比计算？并且利用绘制时间差进行移动？
+      * clientX  鼠标当前点击位置距离浏览器窗口内容区域最左边的距离
+      * clientY  鼠标当前点击位置距离浏览器窗口内容区域最上边的距离
