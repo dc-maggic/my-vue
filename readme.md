@@ -17,6 +17,8 @@
   1. scss
   2. 多页面展示
   3. three
+* 配置问题
+  之前是用babel-core@6.26.2、babel-loader@7.1.5，然后发现无法解析扩展运算符，换成@babel/core@^7.21.4、babel-loader@^6.26.3
 
 * three
   * three1 入门
