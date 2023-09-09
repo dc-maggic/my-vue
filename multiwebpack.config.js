@@ -5,7 +5,7 @@ const path = require('path'),
     copyWebpackPlugin = require('copy-webpack-plugin'),
     { getPages } = require('./build/utils.js'),
     isDebug = process.env.NODE_ENV !== 'production'
-const {entries, htmlPlugins} = getPages(`./src/pages/**/index.js`)
+const {entries, htmlPlugins} = getPages(`./src/pages/**/index.[j|t]s`)
 let config = {
     mode: process.env.NODE_ENV,
     entry: entries,
@@ -14,11 +14,27 @@ let config = {
         path: path.resolve(__dirname, 'dist'),
         clean: true
     },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
     module: {
         rules: [
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            configFile: path.resolve(__dirname, 'tsconfig.json'),
+                            appendTsSuffixTo: [/\.vue$/],
+                        }
+                    }
+                ]
             },
             {
                 test: /\.js$/,

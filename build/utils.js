@@ -8,9 +8,9 @@ module.exports = {
     const entries = {}, htmlPlugins = []
     glob.sync(globPath).forEach(function (entry) {
         const paths = entry.split('/') || []
-        const entryName = paths[3];
+        const entryName = paths[3]
         let moduleIndexHtmlPath = `../public/${entryName}.html`
-        entries[entryName] =  path.join(__dirname, `../src/pages/${entryName}/index.js`)
+        entries[entryName] =  path.join(__dirname, '../', entry)
         let template = (fs.existsSync(moduleIndexHtmlPath) && moduleIndexHtmlPath)
                 || `public/index.html`
         htmlPlugins.push(new HtmlWebpackPlugin({
